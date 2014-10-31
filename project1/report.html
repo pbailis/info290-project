@@ -98,6 +98,12 @@ The Kevo is a basic Bluetooth-enabled smart lock available on
 for $219.00. Kwikset actually manufactures a number of traditional
 lock systems, but Kevo is its flagship electronic offering.
 
+<div id="wrapper" style="width:100%; text-align:center">
+<img src="http://i.i.cbsi.com/cnwk.1d/i/tim2/2013/10/17/2Z9A5520.jpg" align ="center" alt="The Kevo Lock System" height="600" width="600">
+</div>
+<center>Figure 1: The Kevo Smart Lock System (source: http://www.cnet.com/products/kwikset-kevo-bluetooth-door-lock/2/)</center><br>
+
+
 For our experiments, we chose to install the Kevo in a two-by-four
 piece of wood (rather than a door, which would have proven cumbersome
 and likely have provoked the ire of the Soda Hall building
@@ -128,28 +134,47 @@ Briefly, we summarize three challenges we encountered in this work:
 <a href = "#" id="usability"></a>
 ## Usability
 
+Traditionally, the interaction model for a non-smart lock is that the user posess a valid key to the lock and for the the user to unlock the door by inserting then rotate the key. In other words, the traditional interaction model for a lock involves a physical authentication token specific to that lock along with a gesture of intent to unlock. As simple as this interaction model is, the interaction model is quite elegant. The only time a lock is unlocked is when a user has a valid physical authentication token and clearly intends to unlock the lock.
 
-**LINDA**
+The Kevo smart lock offers this traditional interaction model as well, along with two other interaction models. Each of these two methods of unlocking offer unique usability benefits that traditional locks do not provide. For instance, the key fob allows users to unlock and lock doors with more ease. On the other hand, a smart phone app for e-keys allows for easy key distribution, collection, conditional keys (keys which only work on specific times of day, for instance), and logging possibilites.
 
-Describe the user experience; motivate it in general and just sell the point of making a smart lock a good thing.
+Although these new interaction models are not without their limitations, these interaction models provide better ease of use to users and unique data previously was unvailable to users. We believe that if security vulnerabilities are adequately mitigated and interaction models improve, the usability benefits provided to users make a compelling argument for smart lock technolgy.
 
 #### User Interaction Model
 
- * Physical key 
+ * Physical key: To unlock or lock the door, the user has a key which unlocks the door and uses that key to unlock the door. The user can insert the key into the lock and turn the key one way to unlock the lock, and the opposite way to lock the lock.
 
- * FOB
+ * Fob: To unlock or lock the door, the user has a key fob within enough proximity for bluetooth communication between the key fob and the lock, and then touches the lock face. If the lock is currently locked, the lock unlocks and blinks green twice (and optionally, if sound settings are also enabled, beep twice) to give user feedback. If the lock is currently unlocked, the lock locks and blinks red once (and optionally, if sounds settings are also enabled, beep once).  There is also a small LED on the key fob which blinks green or red when locking or unlocking, respectively. 
 
- * Smartphone app
+ ![Touch Interaction Model](http://launch.it/sites/default/files/kwikset.jpg)
+ ![Fob](http://www.kwikset.com/Images/kevo/keys.png)
 
-#### User Feedback
+ * Smartphone app: To unlock or lock the door, the user starts the Kevo smart lock appplication on a smartphone. Once authenticated into the application, the user can then selct a lock to interact with from a liste of locks that the user has access to, then press a button to specifically lock or specifically unlock the lock. Once the application performs an action, the phone vibrates to give the user an indication that the appropriate action has been taken.
+
+ ![The Kevo smart lock smartphone application](http://www.kwikset.com/Images/Kevo/hand-app.png)
+
+#### Required Setup
+
 
 #### Information Available to the User
 
+With traditional locks, there is not much information available to the user about a specific lock. With the Kevo smart lock application, users are able to access: a log of who has used an e-key to lock or unlock a specific lock in recent history, the list of people who have an e-key to a specific lock, the number and types (such as conditional keys) of e-keys for that lock, and if the lock has been disabled or not.
+
+![Kevo Logs](http://gadgetreview.com/wp-content/uploads/2013/12/kevo-App-650x576.jpg)
+
+However, we found that some important data points were not available to the user, such as the status of the lock, logged events for any locking and unlocking with physical keys and key fobs, and what options the lock was configured to at the moment (if sound, light, or safety mode was on).
+
 #### Challenges
-* remaining: intent, context, and proximity
+* A Reliable Indicator of User Intent: 
+
+* Inferring Appropriate Context:
 
 <a href = "#" id="attacks"></a>
 ## Attacks
+
+<!--- Grant, I don't think I should talk about proximity as a challenge in the usability section.. users don't have any new challenges unlocking if they are near or far.. if anything, it makes it easier for them. I think tha talking about proximity issues could be addressed solely in your section. 
+
+The original plan was to also inclulde it in usability, which is what all three of us agreed upon, hence this comment.-->
 
 **GRANT**
 
