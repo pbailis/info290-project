@@ -85,21 +85,45 @@ available smart lock technology.
 <a href="#" id=""></a>
 ## Project Setup
 
-What locks did we buy?
+We attempted to procure a range of smart locks for security
+analysis. We placed orders for a [Kwikset
+Kevo](http://www.kwikset.com/kevo/default.aspx), [Goji Smart
+Lock](https://www.indiegogo.com/projects/goji-smart-lock), and
+[Lockitron](https://lockitron.com/). Unfortunately, the latter two
+products failed to ship due to manufacturing delays, and therefore we
+proceeded to experiment only on the Kwikset Kevo.
 
-What locks did we try to buy?
+The Kevo is a basic Bluetooth-enabled smart lock available on
+[Amazon.com](http://www.amazon.com/Kwikset-Cylinder-Bluetooth-Enabled-Deadbolt/dp/B00CPTD5AQ)
+for $219.00. Kwikset actually manufactures a number of traditional
+lock systems, but Kevo is its flagship electronic offering.
 
+For our experiments, we chose to install the Kevo in a two-by-four
+piece of wood (rather than a door, which would have proven cumbersome
+and likely have provoked the ire of the Soda Hall building
+management).
 
 <a href="#" id="challenges"></a>
 ## Challenges
 
-**PETER**
+Briefly, we summarize three challenges we encountered in this work:
 
-Getting lock availability ended up being a challenge
+ 1. Lock availability was surprisingly sparse. Despite placing orders
+ well in advance of the project's due date, we have yet to receive
+ product from the other manufacturers.
 
-Bluetooth sniffing and proprietary authentication protocols
+ 2. The Kevo lock uses a Bluetooth-based cryptographic communication
+ protocol. Without the use of experimental hardware such as
+ [Ubertooth](http://ubertooth.sourceforge.net/) or more expensive
+ commercially available hardware that would enable us to sniff
+ Bluetooth packets, we were unable to actually attempt relay,
+ capture-and-replay, or in man-in-the-middle attacks.
 
-Installing the lock in the way that we can test it
+ 3. Pragmatically, installing the lock was somewhat of a pain. Without
+ access to a full working environment in which we could install the
+ lock, we ended up drilling holes using a (beefy) loaner power drill
+ from the campus machine lock in one of our offices. The East Bay
+ Express acted as a useful and recyclable carpet covering.
 
 <a href = "#" id="usability"></a>
 ## Usability
