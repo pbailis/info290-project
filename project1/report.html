@@ -1,47 +1,133 @@
 <!DOCTYPE html>
 <html>
-<title>Smart Lock Security</title>
+<title>Smart Lock Security: Ho, Lee, Bailis</title>
 
-<xmp theme="united" style="display:none;">
+<xmp theme="spacelab" style="display:none;">
 # Smart Lock Security: An Experience Report
+#### Grant Ho, Linda Lee, Peter Bailis
+#### INFO 290: Sensors, Humans, Data, Apps
+----
 
 <!--- http://daringfireball.net/projects/markdown/syntax -->
 
 ## Introduction
 
-**PETER**
+Over the past year, a number of "smart lock" technologies have entered
+the consumer market
+([Wired](http://www.wired.com/2013/06/smart-locks/)). These smart
+locks augment the functionality offered by traditional door
+locks---namely, mediation of access to physical space---with a
+spectrum of features, including remote monitoring and control,
+electronic (i.e., non-physical) authorization sharing, and hands-free
+operation. The core selling point of these devices is
+[*usability*](#usability): not only are the advanced features a
+novelty to home automation enthusiasts, but these locks genuinely
+offer new modalities of interaction with physical spaces.
 
-Just a few paragraphs; tl;dr
+Unfortunately, the potential benefits of smart lock adoption must be
+weighed against new and subtle security vulnerabilities that arise
+from their use. Notably, by interfacing the digital (and networked)
+with legacy physical access controls, smart locks must account for a
+range of [attacks](#attacks) that were previously impossible. For
+example, the virtual compromise of a smartphone that is linked to a
+smart lock may render a physical space accessible without ever
+physically making contact with the smartphone, smart lock, space, or
+user; in contrast, an attacker seeking to compromise a traditional
+lock would be forced to resort to physical attacks on the lock.
 
-[This is a link](https://github.com/pbailis/info290-project)
+In this project, we sought to understand the trade-offs between
+usability and security inherent in these emerging
+technologies. Specifically, we evaluated the usability and security of
+a Kevo smart lock application, key fob, and lock. We find that Kevo is
+susceptible to a range of attacks, including proximity-based attacks,
+relay attacks, and directional attacks, raising concerns about
+its security in practice. Nevertheless, we are encouraged by the new
+user modalities enabled by this technology and plan to investigate
+more secure but similarly usable technologies in the second course
+project.
 
-New and subtle security vulnerabilities that haven't come up in
-previous contexts. Usability benefits are much better -- worth pursuing.
+The remainder of this document proceeds as follows. We
+[begin](#relatedwork) by discussing related work and providing
+information on the smart locks we attempted to procure (and the lock
+we were able to procure). Next, we discuss [challenges](#challenges)
+inherent in our experimental setup. We proceed to describe our
+[usability](#usability) experiences with the Kevo lock and outline a
+set of [attacks](#attacks)---some of which we performed---as part of
+this project. We discuss [feedback](#feedback) from the course
+presentation and, subsequently, our plans for [future
+work](#futurework) in the domain of smart lock security. Finally, we
+[conclude](#conclude) with a set of takeaways for would-be smart lock
+customers today.
 
-## Background and Setup
+<a href="#" id="relatedwork"></a>
+## Related Work
 
-**PETER**
+We begin by briefly surveying related work. While these smart locks
+are new entrants on the consumer market, there is a long lineage of
+work in the academic community on improving physical authentication
+via alternative electronic means. For example, [Balfanz and
+Felten](http://dl.acm.org/citation.cfm?id=1251423) suggest the use of
+hand-held computers (a PalmPilot) to alleviate the problem of
+establishing intent with smartcard-based authentication (i.e., most
+smart cards---in our case, physical locks, no less---lack an interface
+via which the user can confirm her intent to unlock an electronic
+resource). [Al-Muhtadi et
+al.](http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=898860&tag=1)
+discuss the use of Kerberos authentication to control a number of
+smart devices within home automation. The [Grey
+system](http://dl.acm.org/citation.cfm?id=2157016) from CMU focuses on
+using smartphones to mediate access to office spaces. Much of this
+work focuses on *custom* prototype systems for the authentication of
+users via non-traditional modalities; our focus here (i.e., for this
+project) is on the capabilities and vulnerabilities of commercially
+available smart lock technology.
 
-Background on smart locks: what's the promise?
+<a href="#" id=""></a>
+## Project Setup
 
-What locks did we buy?
+We attempted to procure a range of smart locks for security
+analysis. We placed orders for a [Kwikset
+Kevo](http://www.kwikset.com/kevo/default.aspx), [Goji Smart
+Lock](https://www.indiegogo.com/projects/goji-smart-lock), and
+[Lockitron](https://lockitron.com/). Unfortunately, the latter two
+products failed to ship due to manufacturing delays, and therefore we
+proceeded to experiment only on the Kwikset Kevo.
 
-What locks did we try to buy?
+The Kevo is a basic Bluetooth-enabled smart lock available on
+[Amazon.com](http://www.amazon.com/Kwikset-Cylinder-Bluetooth-Enabled-Deadbolt/dp/B00CPTD5AQ)
+for $219.00. Kwikset actually manufactures a number of traditional
+lock systems, but Kevo is its flagship electronic offering.
 
-Related work; IoT references
-Look in the car space; Grey system CMU Lujo Bauer
+For our experiments, we chose to install the Kevo in a two-by-four
+piece of wood (rather than a door, which would have proven cumbersome
+and likely have provoked the ire of the Soda Hall building
+management).
 
+<a href="#" id="challenges"></a>
 ## Challenges
 
-**PETER**
+Briefly, we summarize three challenges we encountered in this work:
 
-Getting lock availability ended up being a challenge
+ 1. Lock availability was surprisingly sparse. Despite placing orders
+ well in advance of the project's due date, we have yet to receive
+ product from the other manufacturers.
 
-Bluetooth sniffing and proprietary authentication protocols
+ 2. The Kevo lock uses a Bluetooth-based cryptographic communication
+ protocol. Without the use of experimental hardware such as
+ [Ubertooth](http://ubertooth.sourceforge.net/) or more expensive
+ commercially available hardware that would enable us to sniff
+ Bluetooth packets, we were unable to actually attempt relay,
+ capture-and-replay, or in man-in-the-middle attacks.
 
-Installing the lock in the way that we can test it
+ 3. Pragmatically, installing the lock was somewhat of a pain. Without
+ access to a full working environment in which we could install the
+ lock, we ended up drilling holes using a (beefy) loaner power drill
+ from the campus machine lock in one of our offices. The East Bay
+ Express acted as a useful and recyclable carpet covering.
 
+<a href = "#" id="usability"></a>
 ## Usability
+
 
 **LINDA**
 
@@ -62,6 +148,7 @@ Describe the user experience; motivate it in general and just sell the point of 
 #### Challenges
 * remaining: intent, context, and proximity
 
+<a href = "#" id="attacks"></a>
 ## Attacks
 
 **GRANT**
@@ -104,37 +191,43 @@ Where are the biggest vulnerabilities?
 What is something to research vs. implementation error?
   * What's fundamental?
 
+<a href="#" id="feedback"></a>
 ## Class Feedback
 
-**PETER**
+We summarize the feedback we received from our in-class presentation
+in three primary categories:
 
- * More thoroughness in terms of attacks
+ 1. **Greater detail about security issues.** Several responses highlighted
+ their interest in the security aspects of this work. While security
+ is undoubtedly an important aspect of our daily lives, it is easy to
+ forget about, and, for one member of this project group, thinking
+ about security issues is, in itself, novel. However, a number of
+ responses asked for greater detail and thoroughness with respect to
+ the attacks we considered as part of this course.
 
- * Service economy
+ 2. **Additional applications.** Several responses (and in-class
+ discussion) suggested potential applications for smart lock
+ technology. Applications included the adoption of this technology for
+ hotel rooms, AirBnb, and, more generally, simplification of
+ authentication for the sharing economy. Other responses expressed
+ enthusiasm for the concept of virtual key sharing.
 
- * Physical protection/price point too high
+ 3. **Potential extensions.** Perhaps the largest category of feedback
+ we received dealt with way of improving the security of these
+ devices. Suggestions included multi-factor authentication, use of
+ near-field communication, and the use of alternative biometric factors.
 
- * Multifactor authentication
+**Our response:** In all, this feedback was well targeted towards the
+  issues we had been thinking about: given our findings, how do we
+  improve the security of these devices without compromising
+  usability? Unfortunately, seven minutes did not allow a detailed
+  discussion of our attack study, but we felt that the demonstration
+  we *were* able to perform was useful in conveying both the utility
+  and the dangers of this technology. The next section provides
+  greater detail as to how we plan to apply this feedback towards the
+  second course project.
 
- * Interactive surface
- * AirBnb
-
- * Why not use NFC, RFID?
- * Competitive analysis
- * What is available to the user?
-
- * Like the key sharing idea -- usability was good
- * Like seeing vulnerabilities live; positive feedback on demos
- * Like seeing security
- * Keep the touch-based interaction model
- * Other biometric authentication factors
-
- * *Conclusions: not enough time to cover everything; we're on the
-    right track; next project: actually prototyping multi-modal
-    interaction with smart watches---demonstrate defenses and fixes
-    pertaining to the problem of physical intent during
-    unlock. Bio-sensing 2FA*
-
+<a href="#" id="futurework"></a>
 ## Future Work
 
 **GRANT AND LINDA**
@@ -143,11 +236,27 @@ Reiterate how we like the lock
 
 Sketch project II here
 
+<a href="#" id="conclusions"></a>
 ## Conclusions
 
-**PETER**
+In this project, we evaluated the security implications of a smart
+lock, the Kevo Kwikset, compared to the usability benefits it
+offers. While we are excited by the usability benefits---including key
+sharing and authentication logging---we are concerned about the
+potential vulnerabilities---in particular, those pertaining to
+ambiguous intent in physical spaces. In the next project, we plan to
+address these issues of intent by incorporating additional biometric
+feedback---in the form of watch proximity---to preserve many of these
+usability gains while alleviating a large class of security concerns.
 
-KISS
+## Acknowledgments
+
+The authors would like to thank John Chuang, the students enrolled in
+the Fall 2014 offering of INFO 290, Dawn Song, and David Wagner for
+their feedback and assistance on this work. This project is supported
+in part by the Intel Science and Technology Center for Secure
+Computing ([SCRUB](http://scrub.cs.berkeley.edu/)).
+
 
 </xmp>
 
