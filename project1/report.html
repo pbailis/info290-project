@@ -101,7 +101,7 @@ lock systems, but Kevo is its flagship electronic offering.
 <div id="wrapper" style="width:100%; text-align:center">
 <img src="http://i.i.cbsi.com/cnwk.1d/i/tim2/2013/10/17/2Z9A5520.jpg" align ="center" alt="The Kevo Lock System" height="600" width="600">
 </div>
-<center>Figure 1: The Kevo Smart Lock System (source: http://www.cnet.com/products/kwikset-kevo-bluetooth-door-lock/2/)</center><br>
+<center>Figure 1: The Kevo smart lock system components. (source: http://www.cnet.com/products/kwikset-kevo-bluetooth-door-lock/2/)</center><br>
 
 
 For our experiments, we chose to install the Kevo in a two-by-four
@@ -146,33 +146,54 @@ Although these new interaction models are not without their limitations, these i
 
  * Fob: To unlock or lock the door, the user has a key fob within enough proximity for bluetooth communication between the key fob and the lock, and then touches the lock face. If the lock is currently locked, the lock unlocks and blinks green twice (and optionally, if sound settings are also enabled, beep twice) to give user feedback. If the lock is currently unlocked, the lock locks and blinks red once (and optionally, if sounds settings are also enabled, beep once).  There is also a small LED on the key fob which blinks green or red when locking or unlocking, respectively. 
 
- ![Touch Interaction Model](http://launch.it/sites/default/files/kwikset.jpg)
- ![Fob](http://www.kwikset.com/Images/kevo/keys.png)
+ <div id="wrapper" style="width:100%; text-align:center">
+<img src="http://www.kwikset.com/Images/kevo/keys.png" align ="center" alt="The Kevo Key Fob" height="350" width="350">
+</div>
+<center>Figure 2: The Kevo bluetooth key fob. (source: http://www.kwikset.com/kevo/default.aspx)</center><br>
 
- * Smartphone app: To unlock or lock the door, the user starts the Kevo smart lock appplication on a smartphone. Once authenticated into the application, the user can then selct a lock to interact with from a liste of locks that the user has access to, then press a button to specifically lock or specifically unlock the lock. Once the application performs an action, the phone vibrates to give the user an indication that the appropriate action has been taken.
+ <div id="wrapper" style="width:100%; text-align:center">
+<img src="http://launch.it/sites/default/files/kwikset.jpg" align ="center" alt="The Touch Interaction Model" height="500" width="500">
+</div>
+<center>Figure 3: The fob touch interaction model. (source: http://launch.it/launch/kwikset%C2%AE-kevo%E2%84%A2-smart-lock-turns-your-smartphone-into-a-key)</center><br>
 
- ![The Kevo smart lock smartphone application](http://www.kwikset.com/Images/Kevo/hand-app.png)
+
+ * Smartphone app: To unlock or lock the door, the user starts the Kevo smart lock appplication on a smartphone. Once authenticated into the application, the user's smart phone can act as the user's fob. The user may touch the lock to unlock or lock the lock. Additionally, the user can then selct a lock to interact with from a list of locks that the user has access to, then press a button to specifically lock or specifically unlock the lock. Once the application performs an action, the phone vibrates to give the user an indication that the appropriate action has been taken.
+
+ <div id="wrapper" style="width:100%; text-align:center">
+<img src="http://cdn1.appleinsider.com/13.10.30-Kevo_App-3.jpg" align ="center" alt="The Smartphone Application" height="500" width="500">
+</div>
+<center>Figure 4: The smart phone application. (source: http://appleinsider.com/articles/13/10/30/review-kwiksets-bluetooth-enabled-kevo-deadbolt-lock)</center><br>
 
 #### Required Setup
 
+The required setup for the lock is quite manageable, although admittedly more complex than a traditional lock. The smart lock can be installed in a door just as a traditional lock would be installed. The additional setup requried is with respect to key fobs and smart phone of the lock's master owner, both of which need to be calibrated in physical proximity of the smart lock. The process is fairly simple and quick, with the calibration process consisting of a two steps: 1) key fob initialization (pressing a button) or smart phone application download and 2) pressing the "calbration" button on the smart lock and holding the key fob or smartphone near the smart lock. We do not believe that this additional setup process is complex enough to deter any users from installing smart locks. Additionally, the setup is fail-safe; if a user fails to calibrate fobs or smart phones, the lock simply operates as a tradtional lock.
 
 #### Information Available to the User
 
 With traditional locks, there is not much information available to the user about a specific lock. With the Kevo smart lock application, users are able to access: a log of who has used an e-key to lock or unlock a specific lock in recent history, the list of people who have an e-key to a specific lock, the number and types (such as conditional keys) of e-keys for that lock, and if the lock has been disabled or not.
 
-![Kevo Logs](http://gadgetreview.com/wp-content/uploads/2013/12/kevo-App-650x576.jpg)
+<div id="wrapper" style="width:100%; text-align:center">
+<img src="http://gadgetreview.com/wp-content/uploads/2013/12/kevo-App-650x576.jpg" align ="center" alt="The Smartphone Application" height="400" width="400">
+</div>
+<center>Figure 5: The Kevo log of lock and unlock events for e-keys. (source: http://www.gadgetreview.com/2013/12/kwikset-kevo-smartlock-review)</center><br>
 
-However, we found that some important data points were not available to the user, such as the status of the lock, logged events for any locking and unlocking with physical keys and key fobs, and what options the lock was configured to at the moment (if sound, light, or safety mode was on).
+However, we found that certain critical data points were not available to the user, such as the status of the lock, logged events for any locking and unlocking with physical keys and key fobs, and what options the lock was configured to at the moment (if sound, light, or safety mode was on). This was dissapointing, especially because there are other lock systems which do provide this information and also reviews of other smart locks with similar criticisms.
 
-#### Challenges
-* A Reliable Indicator of User Intent: 
+#### User Benefits
 
-* Inferring Appropriate Context:
+With the new fob and smartphone interaction model, the user now simply has to touch the lock to unlock or lock a lock, rather than to take the physical key, insert it into the lock, and twisting the key. This makes the lock much more easy to use since the user simply has to posess the key rather than to physically locate the key and to take action. Touch-to-unlock only takes about 3 seconds to lock and unlock the door, whereas using a physical key might take longer, depending on if the user knows where the key is, if the user has hands free, etc.
+
+The Kevo smart lock application provides great management tools for keys as well. Users are now able to grant access, collect keys, and revoke keys by pressing buttons in the application, rather than tracking down the recipient in person and handling the creation, distribution, and collection of physical artifacts. Additionally, the notion of conditional keys--keys which only work during certain times of day, certain days, etc. are a novel idea and great to use for specialized needs, such as a babysitter, maid, or contractor.
+
+#### Areas of Improvement
+* Inconsistent Timing: The Kevo smart lock takes a variable amount of time (sometimes up to 20 seconds) to lock or unlock, which can be frustrating fo the user. 
+
+* Unreliable Communication: we found that the bluetooth key fob or smartphone had trouble communicating with the lock when there were objects in the way. It would be reasonable to expect users to store their key fobs or smart phone behind a wallet, inside a purse, or in their back pockets, but the lock has trouble communicating with the key fob during these instances.
 
 <a href = "#" id="attacks"></a>
 ## Attacks
 
-<!--- Grant, I don't think I should talk about proximity as a challenge in the usability section.. users don't have any new challenges unlocking if they are near or far.. if anything, it makes it easier for them. I think tha talking about proximity issues could be addressed solely in your section. 
+<!--- Grant, I don't think I should talk about proximity, intent, and context challenges in the usability section.. users don't have any new challenges unlocking if they are near or far.. if anything, it makes it easier for them. I think that talking about these issues could be addressed solely in your section. I talked about issues in how it was frustrating to use.
 
 The original plan was to also inclulde it in usability, which is what all three of us agreed upon, hence this comment.-->
 
@@ -189,6 +210,7 @@ For each, give a short vignette
  Interaction model
 
  Side of the door
+ solution: a reliable indicator of user intent, inferring appropriate context,etc. 
 
  Proximity
 
@@ -255,11 +277,28 @@ in three primary categories:
 <a href="#" id="futurework"></a>
 ## Future Work
 
-**GRANT AND LINDA**
+**GRANT (linda's comments in file)**
 
-Reiterate how we like the lock
+<!-- Grant! USE THIS!!
 
-Sketch project II here
+FROM MY USER BENEFITS SECTION:
+With the new fob and smartphone interaction model, the user now simply has to touch the lock to unlock or lock a lock, rather than to take the physical key, insert it into the lock, and twisting the key. This makes the lock much more easy to use since the user simply has to posess the key rather than to physically locate the key and to take action. Touch-to-unlock only takes about 3 seconds to lock and unlock the door, whereas using a physical key might take longer, depending on if the user knows where the key is, if the user has hands free, etc.
+
+The Kevo smart lock application provides great management tools for keys as well. Users are now able to grant access, collect keys, and revoke keys by pressing buttons in the application, rather than tracking down the recipient in person and handling the creation, distribution, and collection of physical artifacts. Additionally, the notion of conditional keys--keys which only work during certain times of day, certain days, etc. are a novel idea and great to use for specialized needs, such as a babysitter, maid, or contractor.
+
+FROM MY USABILITY INTRO:
+Although these new interaction models are not without their limitations, these interaction models provide better ease of use to users and unique data previously was unvailable to users. We believe that if security vulnerabilities are adequately mitigated and interaction models improve, the usability benefits provided to users make a compelling argument for smart lock technolgy.
+
+FROM MY AREAS OF IMPROVEMENT SECTION:
+* Inconsistent Timing: The Kevo smart lock takes a variable amount of time (sometimes up to 20 seconds) to lock or unlock, which can be frustrating fo the user. 
+
+* Unreliable Communication: we found that the bluetooth key fob or smartphone had trouble communicating with the lock when there were objects in the way. It would be reasonable to expect users to store their key fobs or smart phone behind a wallet, inside a purse, or in their back pockets, but the lock has trouble communicating with the key fob during these instances.
+
+-->
+
+Sketch project II here:
+
+<!-- How about you just talk about what you and David talked about? That watch and smart phone application idea sounds pretty good to me. -->
 
 <a href="#" id="conclusions"></a>
 ## Conclusions
