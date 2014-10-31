@@ -4,20 +4,60 @@
 
 <xmp theme="united" style="display:none;">
 # Smart Lock Security: An Experience Report
+#### Grant Ho, Linda Lee, Peter Bailis
+#### INFO 290: Sensors, Humans, Data, Apps
+----
 
 <!--- http://daringfireball.net/projects/markdown/syntax -->
 
 ## Introduction
 
-**PETER**
+Over the past year, a number of "smart lock" technologies have entered
+the consumer market
+([Wired](http://www.wired.com/2013/06/smart-locks/)). These smart
+locks augment the functionality offered by traditional door
+locks---namely, mediation of access to physical space---with a
+spectrum of features, including remote monitoring and control,
+electronic (i.e., non-physical) authorization sharing, and hands-free
+operation. The core selling point of these devices is
+[*usability*](#usability): not only are the advanced features a
+novelty to home automation enthusiasts, but these locks genuinely
+offer new modalities of interaction with physical spaces.
 
-Just a few paragraphs; tl;dr
+Unfortunately, the potential benefits of smart lock adoption must be
+weighed against new and subtle security vulnerabilities that arise
+from their use. Notably, by interfacing the digital (and networked)
+with legacy physical access controls, smart locks must account for a
+range of [attacks](#attacks) that were previously impossible. For
+example, the virtual compromise of a smartphone that is linked to a
+smart lock may render a physical space accessible without ever
+physically making contact with the smartphone, smart lock, space, or
+user; in contrast, an attacker seeking to compromise a traditional
+lock would be forced to resort to physical attacks on the lock.
 
-[This is a link](https://github.com/pbailis/info290-project)
+In this project, we sought to understand the trade-offs between
+usability and security inherent in these emerging
+technologies. Specifically, we evaluated the usability and security of
+a Kevo smart lock application, key fob, and lock. We find that Kevo is
+susceptible to a range of attacks, including proximity-based attacks,
+relay attacks, and directional attacks, raising concerns about
+its security in practice. Nevertheless, we are encouraged by the new
+user modalities enabled by this technology and plan to investigate
+more secure but similarly usable technologies in the second course
+project.
 
-New and subtle security vulnerabilities that haven't come up in
-previous contexts. Usability benefits are much better -- worth pursuing.
+The remainder of this document proceeds as follows. We
+[begin](#background) by providing information on the smart locks we
+attempted to procure and discuss related work. Next, we discuss
+[challenges](#challenges) inherent in our experimental setup. We
+proceed to describe our [usability](#usability) experiences with the
+Kevo lock and outline a set of [attacks](#attacks)---some of which we
+performed---as part of this project. We discuss [feedback](#feedback)
+from the course presentation and, subsequently, our plans for [future
+work](#futurework) in the domain of smart lock security. Finally, we
+[conclude](#conclude) with a set of takeaways for would-be smart lock customers today.
 
+<a href="#" id="background"></a>
 ## Background and Setup
 
 **PETER**
@@ -31,6 +71,7 @@ What locks did we try to buy?
 Related work; IoT references
 Look in the car space; Grey system CMU Lujo Bauer
 
+<a href="#" id="challenges"></a>
 ## Challenges
 
 **PETER**
@@ -41,7 +82,9 @@ Bluetooth sniffing and proprietary authentication protocols
 
 Installing the lock in the way that we can test it
 
+<a href = "#" id="usability"></a>
 ## Usability
+
 
 **LINDA**
 
@@ -55,6 +98,7 @@ Describe the user experience
 
  * Challenges remaining: intent, context, and proximity
 
+<a href = "#" id="attacks"></a>
 ## Attacks
 
 **GRANT**
@@ -97,6 +141,7 @@ Where are the biggest vulnerabilities?
 What is something to research vs. implementation error?
   * What's fundamental?
 
+<a href="#" id="feedback"></a>
 ## Class Feedback
 
 **PETER**
@@ -128,6 +173,7 @@ What is something to research vs. implementation error?
     pertaining to the problem of physical intent during
     unlock. Bio-sensing 2FA*
 
+<a href="#" id="futurework"></a>
 ## Future Work
 
 **GRANT AND LINDA**
@@ -136,6 +182,7 @@ Reiterate how we like the lock
 
 Sketch project II here
 
+<a href="#" id="conclusions"></a>
 ## Conclusions
 
 **PETER**
