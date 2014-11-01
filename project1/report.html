@@ -193,51 +193,108 @@ The Kevo smart lock application provides great management tools for keys as well
 <a href = "#" id="attacks"></a>
 ## Attacks
 
-<!--- Grant, I don't think I should talk about proximity, intent, and context challenges in the usability section.. users don't have any new challenges unlocking if they are near or far.. if anything, it makes it easier for them. I think that talking about these issues could be addressed solely in your section. I talked about issues in how it was frustrating to use.
-
-The original plan was to also inclulde it in usability, which is what all three of us agreed upon, hence this comment.-->
-
-**GRANT**
-
-For each, give a short vignette
-
 ### Physical Attacks
 
- *Stan the Burgler breaks open the lock with a screwdriver.*
-
- Jimmying the lock
-
- Interaction model
-
- Side of the door
- solution: a reliable indicator of user intent, inferring appropriate context,etc. 
-
- Proximity
-
 #### Problem 
+A number of physical attacks, such as [lock bumping](http://en.wikipedia.org/wiki/Lock_bumping) 
+or outright smashing the lock, already exist against "dumb" locks. 
+While smartlocks do not provide additional protection against these existing attacks, they are
+susceptible to new physical attacks that exploit the inability of smartlocks to securely gauge a user's intent to unlock/lock. 
+Consider "side-of-the-door" attack, where a murderous attacker attempts to break into Alice's home while she's inside. The
+pernicious attacker starts by knocking on Alice's front door. Walking close
+to the door in order to look into the peephole, Alice inadvertently brings the smartphone/key fob in her pocket
+within range of the smartlock's sensors; this allows the dangerous attacker to unlock her door by continuously tapping on the
+smart lock keyhole.
 #### Solution
-
+Fundamentally, side-of-the-door and other attacks, which we discuss later, exploit weak notions of when a user <i>intends</i>
+to unlock or lock a door/vehicle/device. In order to make smart locks as easy to use as possible, manufacturers have
+pursued a model that assumes a tap on the smartlock's key hole and the receival of correct authentication messages from a digital key
+indicate that an authorized user is trying to unlock/lock the door; side-of-the-door
+attacks break these assumptions. We aim to prevent these kinds of attacks by redesigning smartlocks to combine
+better user-interaction models with wearable devices/biosensors in order to securely assess the intent of users.
+    
 ### Relay Attacks
 
-#### Problem 
-#### Solution
+#### Problem: 
+In a [relay attack](https://eprint.iacr.org/2010/332.pdf), a pair of attackers works to initiate and relay
+a live-authentication communication between the lock and key. One attacker stands next to
+the key and the other stands next to the lock; broadcasting query signals to the key and lock, the
+attackers trigger the legitimate key and lock to begin an authentication process to unlock the door.
+Every message sent by the key is then captured as a signal/electromagnetic field by one attacker
+and relayed over Wifi or RF to his accomplice, who then demodulates the signal and broadcasts it to the lock;
+authentication messages sent by the lock are captured, relayed, and broadcast in the same manner. As a result,
+both the digital key and smartlock see completely valid authentication messages from each other and unlock the
+door. In essence, this attack maliciously "bridges" the physical gap between a key and lock in order to fool the smartlock
+into believing the homeowner is nearby the lock and attempting to open the door.
+#### Solution:
+Similar to side-of-the-door attacks, more secure user-interaction models and user-intent sensing can mitigate
+the threat of relay attacks; for example, attackers might now need to trick the user into performing some gesture
+or need to fool a smartwatches' sensor readings in order to ellicit authentication messages from the smartwatch
+(digital key).
 
 ### Cryptographic Attacks
 
-#### Problem 
+#### Problem:
+A common mantra in applied cryptography is to never invent and implement your own crytographic protocol
+from scratch; dozens of existing papers cogently illustrate this point by uncovering a plethora
+of vulnerabilities in not only newly proposed crypto schemes, but also ones designed and deployed
+at large-scale for many years. Given that Kevo smartlock describes their implementation as a custom,
+"military-grade" AES-128 implementation, we are skeptical of the authentication protocol's security.
 #### Solution
-
+Vulnerabilities in cryptographic and authentication protocols can be minimized by using ones that have been vetted and deployed for
+many years; although well-established crypto protocols like SSL may contain vulnerabilites 
+([even after many years of widescale deployment](http://heartbleed.com/)), they are likely to remain more secure and contain
+fewer bugs than custom, newly-implemented crypto protocols.
+    
 ### Malware Attacks
 
-#### Problem 
-#### Solution
+#### Problem: 
+Malicious apps that gain root permission can intercept and tamper with
+traffic on smartphones; more dangerous, this kind of malware can also access data that 
+the application stores on the phone (such as private encryption keys used to authenticate to a smartlock). 
+Additionally, web malware or vulnerabilities in the smart lock's website/server allow attackers to
+grant themselves digital eKeys to unlock any smart lock and/or view a smartlock's audit logs
+to see when home owners and residents enter and exit their house.
+#### Solution: 
+The problems of web malware and server-side vulnerabilities have existed
+for many years; aside from hoping websites and servers write secure code,
+web vulnerabilities and malware remain an unanswered problem in research. 
+While schemes like [CryptDB](http://css.csail.mit.edu/cryptdb/) can be used to protect data like audit logs,
+attackers who compromise the servers of smartlock companies will be able to obtain digital eKeys to unlock
+any users' smartlocks. 
+On the other hand, system designers have greater resources and avenues to combat malware that infects
+smartphones and other digital keys. In particular, new advances in hardware and software
+architectures have made "trusted/hardware security modules" practical, and many smart devices already 
+[ship with](http://www.arm.com/products/processors/technologies/trustzone/index.php) the necessary
+hardware to leverage this architecture. These trusted hardware modules can
+prevent unauthorized, malicious apps from reading sensitive data, such as the encryption keys used
+by the smartlock app. Additionally, we aim to design a wearable device designed for purely authentication purposes;
+by physically isolating the apps and protocols used by smart locks from potentially dubious apps on
+smart phones and computers, we can strongly mitigate the threat of malware infection on digital-key devices.
 
 ### Summary
-
-Where are the biggest vulnerabilities?
-What is something to research vs. implementation error?
-  * What's fundamental?
-
+Among these different attacks, three classes of vulnerabilities underpin the major threat models.
+One class of vulnerabilities is implementation error in the authentication protocols
+used by smartlocks; established, already implemented
+protocols exist for the authentication needs of smartlocks, so there is no reason why
+existing smartlocks can't adopt these existing authentication mechanisms and eliminate dangerous
+cryptographic threats. While interesting problems might exist in developing a scalable encryption key management 
+system for the Internet of Things, these problems lie outside of the realm of wearable devices and biosensors, so we
+will not examine them further in this class.
+The remaining two categories of vulnerabilities highlight enticing, fundamental problems which beckon for future research
+in biosensing and wearable devices. First, the primary reason why malware on digital-key devices constitutes a sailent threat is because of its
+ability to read and tamper with data in the smartlock app (e.g. encryption keys used to authenticate to smartlocks).
+At the heart of this threat is a problem of weak isolation designs; existing smart phone
+apps do a poor job of strongly and explicitly isolating their execution/data from other apps and the phone's operating system.
+By combining physical isolation (moving digital keys to a wearable device used only for authentication) and hardware/software architectures
+for trusted and isolated modules, we should be able to limit major threats from malware; rigorously analyzing this hypothesis and formalizing
+the security guarantees remains an open research question that we are eager to explore.
+In terms of the final class of threats, relay and phyiscal attacks (e.g. side-of-the-door attacks) are the result of insecure models to detect user intent. 
+By assuming that nearby proximity and weak touch gestures accurately indicate a user's intent to lock or unlock a door, existing smart locks underestimate
+the capability of attackers to fool users and smart lock sensors into unintentially granting them access. This question of "securing
+communicating intent" will likely benefit from bio-sensor data and better user-interaction models, and it will be the focus
+of project 2.
+    
 <a href="#" id="feedback"></a>
 ## Class Feedback
 
