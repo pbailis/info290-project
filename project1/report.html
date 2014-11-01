@@ -334,28 +334,25 @@ in three primary categories:
 <a href="#" id="futurework"></a>
 ## Future Work
 
-**GRANT (linda's comments in file)**
-
-<!-- Grant! USE THIS!!
-
-FROM MY USER BENEFITS SECTION:
-With the new fob and smartphone interaction model, the user now simply has to touch the lock to unlock or lock a lock, rather than to take the physical key, insert it into the lock, and twisting the key. This makes the lock much more easy to use since the user simply has to posess the key rather than to physically locate the key and to take action. Touch-to-unlock only takes about 3 seconds to lock and unlock the door, whereas using a physical key might take longer, depending on if the user knows where the key is, if the user has hands free, etc.
-
-The Kevo smart lock application provides great management tools for keys as well. Users are now able to grant access, collect keys, and revoke keys by pressing buttons in the application, rather than tracking down the recipient in person and handling the creation, distribution, and collection of physical artifacts. Additionally, the notion of conditional keys--keys which only work during certain times of day, certain days, etc. are a novel idea and great to use for specialized needs, such as a babysitter, maid, or contractor.
-
-FROM MY USABILITY INTRO:
-Although these new interaction models are not without their limitations, these interaction models provide better ease of use to users and unique data previously was unvailable to users. We believe that if security vulnerabilities are adequately mitigated and interaction models improve, the usability benefits provided to users make a compelling argument for smart lock technolgy.
-
-FROM MY AREAS OF IMPROVEMENT SECTION:
-* Inconsistent Timing: The Kevo smart lock takes a variable amount of time (sometimes up to 20 seconds) to lock or unlock, which can be frustrating fo the user. 
-
-* Unreliable Communication: we found that the bluetooth key fob or smartphone had trouble communicating with the lock when there were objects in the way. It would be reasonable to expect users to store their key fobs or smart phone behind a wallet, inside a purse, or in their back pockets, but the lock has trouble communicating with the key fob during these instances.
-
--->
-
-Sketch project II here:
-
-<!-- How about you just talk about what you and David talked about? That watch and smart phone application idea sounds pretty good to me. -->
+For project 2, we intend to design a smart lock system that retains the attractive features
+and convenience of existing smart locks; however, we will design our system to ensure
+that a user's intent-to-unlock/lock is securely detected and communicated. In particular, we
+will use Android smartwatches, which our advisors have already purchased, as the vehicles for
+our digital eKeys. By moving to smartwatches, we not only provide stronger isolation guarantees than a smartphone app, 
+but we might also enhance the usability of our system because the smartwatch's signal will not
+be obstructured by things in a user's backpack or pocket (which were shown to decrease a key fob/smartphone's
+ability to unlock existing smart locks). More importantly, we will experiment with different user gestures
+and interaction models to identify a natural interaction for users to perform when
+they want to unlock/lock their door; we will leverage biological and environmental sensors on our smartwatches
+in order to accurately and securely identify when an unlock/lock interaction is being performed. Depending
+on what we use to simulate the physical lock, we might also be able to leverage additional sensors on our
+lock to improve the security and usability of our interaction model.
+In particular, we will either use a website running on a laptop or an app running on an Android phone in order
+to simulate a physical smart lock; to mimic the authentication process between a real, physical smart lock and our smartwatch app,
+we will have our smartwatch and virtual lock communicate over Wifi/Internet. The virtual lock (website/Android app) will then
+display a green acknowledgement message for successful unlock/lock attempts and a
+red error message for unsuccessful attempts. By using this simplified setup, we aim to quickly build a prototype
+that focuses on illuminating the interesting security and usability issues in the smartlock space.
 
 <a href="#" id="conclusions"></a>
 ## Conclusions
