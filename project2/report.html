@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-<title>Wearable Smart Locks: Ho, Lee, Bailis</title>
+<title>Wearable Authentication for Smart Locks: Ho, Lee, Bailis</title>
 
 <xmp theme="united" style="display:none;">
-# Smart Locks: Rebooted
+# SmartLock2.0: Wearable Authentication for Smart Locks
 #### Grant Ho, Linda Lee, Peter Bailis
 #### INFO 290: Sensors, Humans, Data, Apps
 ----
@@ -12,37 +12,280 @@
 
 ## Introduction
 
-Short, improved over [this](http://www.bailis.org/private/info290/p1/report.html).
+In this project, we addressed several shortcomings of existing smart
+lock security by integrating wearable technology into the smart lock
+authenticaiton process. Primarily, [during our prior experience with
+smart locks in Project
+One](http://www.bailis.org/private/info290/p1/report.html), we noted
+that existing locks are bad at detecting intent, or disambiguating
+deliberate and legitimate attempts to unlock smart lock devices from
+accidental or illegitimate attempts to unlock them. In this work, we
+examined the use of wearable technology and simple gesture recognition
+to augment the sensor inputs used in smart lock authentication. This
+document is designed to document our initial design, implementation,
+and authentication for what is, in effect, two-factor physical
+authentication for smart lock security.
 
+The remainder of this document proceeds as follows: we introduce our
+specific [problem statement](#statement) and describe our proposed
+[system architecture and recognition algorithm](#arch). We
+subsequently describe the resulting [end-to-end user experience](#ui)
+and our prototype's efficacy in [mitigating specific
+attacks](#mitigating). We also discuss [shortcomings](#remaining) of
+our current approach and directions for [future work](#futurework) in
+mitigating them before [concluding](#conclusions).
+
+<a href="#" id="statement"></a>
 ## Problem Statement
 
-Integrate wearables with existing locks
+As we have discussed, our prior experiences with smart lock security
+were marked by a number of security flaws, largely dealing with the
+ability to capture *user intent* in unlocking a door. In our analysis
+of the Kevo Smart Lock, we found that the lock would frequently grant
+access to an unauthorized attacker if the key holder was in close
+proximity to the door. The lock lacked a means of distinguishing
+whether or not the key's proximity to the lock signaled an intent to
+open the door or whether the proximity was simply a matter of
+coincidence or other clever social engineering on behalf of a would-be
+attacker. Faced with this ambiguity, the Kevo lock would simply unlock
+the door, compromising the security of the system and that of the
+system user.
 
+In this project, we wanted to explore ways of mitigating these
+security threats by better capturing the intent of the
+user. Specifically, we asked the question:
+
+***Can we use wearable technology to augment existing smart lock
+  systems' ability to detect user intent?***
+
+Rather than simply replace existing smart lock technology based on
+proximity sensing, we sought to strengthen the smart lock's sensing
+capabilities to better understand intent. Towards this end, we
+investigated the use of wearable technology---specifically, the use of
+"smart watch" wearable computers---as an additional input device
+during the authentication process. In effect, this additional input
+would serve as a "second factor" of authentication and help reduce
+false positives in the authentication process (ideally without
+increasing false negatives and thus leaving users locked out of their
+respective protected spaces).
+
+The resulting challenges were three-fold. First, how could we design
+an authentication system that preserved existing modes of operation
+(thereby minimizing cognitive and procedural overheads for users)
+while integrating these new devices? Balancing usability and security
+is a perennial challenge and therefore we sought to minimize the
+disruption in existing authentication routines. Second, what
+watch-based sensors and/or authentication methods were most suitable
+for actually performing the authentication? Namely, our platform
+offered a variety of data sources, including acceleration, rotation,
+and touch sensors. Which would be most useful? Third, how can we
+actually build such a system practically and efficiently? Actually
+writing the software to wire together such sensors (ideally in a
+backwards-compatible manner) proved to be a somewhat challenging
+exercise in systems integration and software engineering.
+
+In the next section, we discuss our proposed architecture and
+prototype for two-factor physical authentication.
+
+<a href="#" id="arch"></a>
 ## System Architecture and Algorithm
 
-What did we build? How did we detect.
+To address our problem statement above, we developed a prototype
+two-factor smart lock that realizes the benefits of proximity sensing
+*combined* with gestural recognition.
 
-<img src="arch.png" width=600 />
+#### Solution Overview
 
-<img src="graph.png" width=600 />
+In all, our system architecture combines both touch-based
+  authentication commands with accelerometer-based gesture
+  recognition. We relay the sensor readings from a watch-based
+  accelerometer to a centralized authentication server to detect the
+  physical gesture of unlocking a given lock. Upon lock authentication
+  request, the lock queries the authentication server to ensure that
+  not only is the given key in range, but the user has recently
+  performed the appropriate gesture required for lock release.
 
-## User Interface
+We provide additional details about user experience and interface in
+the next section, but, for now, we assume that the user is wearing a
+smart watch with a specialized smart lock accelerometer relay program
+installed (described below). 
+
+#### Prototype Description
+
+We prototyped the above system using a range of technologies. We
+describe each component of our solution at a high level below, then
+discuss specific algorithmic details and design decisions:
+
+<center style="padding-bottom: 1em;">
+<img src="arch.png" width=600 /><br />
+**Figure 1: Overall Prototype Architecture. A range of technologies
+enable two-factor authentication of physical smart lock
+authentication.**
+</center>
+
+  * **The lock** is an internet-enabled smart lock able to make HTTP
+      requests over the public Internet to the authentication
+      service. In our prototype, the lock is an HTML5 website accessed
+      via a smart phone. When a user triggers the "unlock" dialog on
+      the website, the phone makes an AJAX call via REST to a
+      centralized authentication server to determine whether or not to
+      authenticate the user. (Our current lock prototype does not
+      actually physically unlock anything, but it displays an
+      appropriate dialog to the user as if it actually did.)
+
+      In practice, the lock could use a phone as a 
+      local proxy for authentication, with appropriate encryption 
+      performed via a one-time pad with the server.
+
+<center style="padding-bottom: 1em;">
+<img src="lock-proto.png" width=300 /><br/>
+**Figure 2: Lock prototype website displayed on an iPhone 6.**
+</center>
+
+  * **The watch** is a [Samsung Gear
+      Live](https://play.google.com/store/devices/details?id=samsung_gear_live_black&hl=en)
+      watch running the Google Android operating system. The watch
+      contains a custom program written using the [Android Wear
+      API](https://developer.android.com/wear/index.html) to access
+      the watch's accelerometer sensors (sampled at 60 Hz) and relay
+      them (via Bluetooth) to a [Google Nexus smart
+      phone](http://www.google.com/nexus/). The smart phone runs a
+      second application, written in Java, that relays the watch
+      accelerometer readings to the authentication server
+
+<center style="padding-bottom: 1em;">
+<img src="TODO.png" width=300 /><br/>
+      **Figure 3: PICTURE NEEDED.**
+</center>
+
+  * **The authentication server** is a Python application written
+      using the [Flask HTTP
+      microframework](http://flask.pocoo.org/). The authentication
+      server stores the latest sensor readings and, upon
+      authentication request (from the lock front-end), calculates
+      whether the user has performed the specific lock authentication
+      gesture (algorithm described below). We deployed the server on
+      Amazon EC2, where it is publicly accessible via REST calls and
+      HTTP.
+
+  * For convenience during development, we have added a **monitoring
+    window** that allows developers to view the current watch
+    accelerometer readings.
+
+#### Algorithm Design
+
+When deciding how to actually perform the algorithmic gesture
+recognition, we considered a range of algorithms, including dynamic
+time warping (see [below](#futurework)) and advanced machine learning
+techniques such as [deep neural
+networks](http://en.wikipedia.org/wiki/Artificial_neural_network). Ultimately,
+over the course of our development, given the complexity of simply
+gluing together all of the sensors required to enable a real
+end-to-end application of smart watch technology, we decided to start
+with a very simple algorithm instead.
+
+Per above, we decided to use the accelerometer readings as a proxy for
+determining whether a user had raised her hand to the lock in order to
+trigger the touch-based authentication sensor. We viewed the
+accelerometer readings during a series of trial "unlocking" actions
+and found that, often, we would unlock the door by performing a
+sweeping motion, bringing the wrist from waist to door. This roughly
+corresponds to the positive acceleration in the z-dimension measured
+in the plot below (viewed via the monitoring window):
+
+<center style="padding-bottom: 1em;">
+<img src="graph.png" width=600 /><br />
+**Figure 3: Accelerometer readings from an unlock gesture (arm raise
+peaking at 12.5 m/s/s).**
+</center>
+
+After some trial and error, we determined that this negative
+acceleration proved a useful means of determining user intent. Namely,
+when the server received a touch-based authentication request, we
+calculated the average positive acceleration over the past two seconds
+of data and, if the acceleration was sufficiently negative, we would
+unlock the door. The actual choice of threshold is somewhat
+user-specific, but we found a common choice that was well-suited for
+our purposes.
+
+Thus, this simple design [has some drawbacks](#remaining) but is
+surprisingly [sufficient to mitigate many of the threats that we
+considered](#mitigation).
+
+#### Design and Engineering Decisions
+
+Over the course of our implementation, we made a number of
+decisions that influenced our final prototype. We outline several here:
+
+ * **Actual lock integration:** Barring the ability to flash the
+     firmware of our existing smart lock, we decided to mock up the
+     lock prototype using HTML5 and Javascript. This was sub-optimal
+     in terms of actual lock usability, but it was sufficient as a
+     proof of concept of our authentication strategy. In a production
+     deployment, we would need to either modify the existing firmware
+     or build a new microcontroller-based lock. A platform such as
+     [Arduino](http://www.arduino.cc/) would make this feasible.
+
+ * **Reliance on a global server:** Using a single server simplified
+     the authentication process; indeed, as we discussed in our prior
+     work even the Kevo lock appears to use a centralized server when
+     possible to facilitate dynamic Bluetooth key
+     authentication. Nevertheless, especially in the event of Internet
+     outaages and sporadic connectivity, it would be advantageous to
+     pursue a more decentralized architecture, possibly with the lock
+     server located physically within the locked space or,
+     alternatively, on the smart device itself (provided the platform
+     provided a sufficiently strong [trusted computing
+     base](http://en.wikipedia.org/wiki/Trusted_computing_base)). Moreover,
+     eliminating the smart phone entirely would have been useful, albeit
+     at the cost of either requiring Internet connectivity for the
+     watch (requiring more power) or requiring a suitable alternative
+     for a Bluetooth-based sensor proxy.
+
+ * **Proximity sensing:** Our current prototype does not perform
+     proximity-based authentication with a Bluetooth fob as in the
+     Kevo system; rather, simply "clicking" (or, on our smartphone,
+     pressing) the lock button is sufficient to trigger the
+     authentication script. This does not appear fundamental but is
+     another feature that we cut in order to expedite development.
+
+ * **Sensor use**: We currently require that the watch application and
+     phone application be running in order to authenticate with the
+     lock. In practice, this requires the user to either keep this
+     applications running continuously (draining battery and consuming
+     network bandwidth) or to activate these applications when she
+     wishes to unlock her smart lock. This is at odds with out design
+     goal above but simplified our engineering process. We envision a
+     combination of low-power listening modes and GPS-based proximity
+     detection to reduce these expenses. Also, we decided not to
+     investigate the use of additional sensors on the phone, such as
+     the rotation sensor. This would help eliminate some of the false
+     negatives that we describe below.
+
+<a href="#" id="ui"></a>
+## User Interface and Experience
 
 <img src="locked.png" width=200 />
 <img src="denied.png" width=200 />
 
+<a href="#" id="mitigation"></a>
 ## Threat Mitigation
 
 What did we find out?
 
+<a href="#" id="remaining"></a>
 ## Remaining Threats
+
+Talk about false positives here!
 
 What didn't we solve?
 
+<a href="#" id="futurework"></a>
 ## Future Work
 
 Better gesture recognition, etc. goes here.
 
+<a href="#" id="conclusions"></a>
 ## Conclusions
 
 You know the drill
