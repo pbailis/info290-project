@@ -276,44 +276,44 @@ What did we find out?
 <a href="#" id="remaining"></a>
 ## Remaining Threats
 
-Our wearables gesture recognition smartlock authentication scheme can be vulnerable to the threats we mitigate if there are false positives in recognizing the gesture. Additionally, other out-of-scope threats still remain for smart lock technologies and should be taken into consideration. 
+Our wearables gesture recognition smartlock authentication scheme can be vulnerable to the threats we mitigate if there are false positives in recognizing the gesture. Therefore, it is critical that the gesture used for authentication is an [optimal gesture](#futurework). For instance, our system mitigates against relay attacks because of the condition that the relay attack has to be performed in a specific time window while the authenticating gesture is made by the user. If the attacker was somehow able to socially engineer the user to perform a similar motion, cause a false positive, and implement his attack, the smartlock will be vulnerable. 
 
-#### In-scope Threats
-Possible false positives with the commonness of the gesture. 
-Makes relay attacks still technically possible. 
-
-Social engineering attacks can be used to make the wearer do something specific. 
-
-#### Out-of-Scope Threats
-Malware, physical theft, physical attacks, cryptographic attacks. Refer to the old website if necessary. 
+Our system was intentionally designed to address the problem of accurately indicating intent for smart lock authentication systems. However, there are other threats which remain unaddressed by the system and the research community, such as the possibility for smartlock malware. Other remaining vulnerabilities include the possibility of physical theft of the authenticating wearable device, physical attacks to break the smartlock, any cryptographic attacks if a [lock manufacturer has a custom encryption implementation](http://www.bailis.org/private/info290/p1/report.html#attacks). 
 
 
 <a href="#" id="futurework"></a>
 ## Future Work
 
-Next steps for improving smart lock security by integrating wearable technology into the smart lock authenticaiton process involves: investigating for the optimal gesture for authentication, implementing more refined gesture recognition techniques, and continuing to agument our authentication system with additional features. 
+Next steps for improving smart lock security by integrating wearable technology into the smart lock authenticaiton process involves: investigating for the optimal gesture for authentication and implementing more refined gesture recognition techniques. 
 
 #### The Optimal Gesture
-Which ones are most normal? Which ones have a high false positive rate?
+For our system, we chose the gesture most natural and indicative of interacting with the lock--tracking when a user reaches to push the button on the lock. Since users do would perform this motion when interacting with the lock, no additional effort, prior knowledge, or training is required of the user. Additionally, since the motion is used when interacting with the lock, this motion can serve as a strong indicator of intent. 
+
+However, there are benefits to trading off how usable a system is for a user for security guarentees. For instance, a more difficult and uncommon gesture (such as drawing a circle), is both more difficult for the user to perform, requires prior knowledge of the system, and requires a shift in habit. While less conveient for the user, this does prevent unahthorized users without prior knowledge (or very lazy unauthorized users) from using this lock.
+
+A less common gesture also has the advantage of triggering less false positives, due to its uncommon nature. If a motion is very common, there is the possibility that the lock will open without the user's intent. Currently, our system requires that an authorized user had made a reaching motion within the last two seconds before there was a signal to unlock the smartlock. Our current reaching motion provides sufficient mitigations against the attacks mentioned above, but further research can be done to find the optimal gesture which makes appropriate tradeoffs betweeen usability and security. 
 
 #### Better Gesture Recognition Techniques
-using 1) dtw and 2) plane normalization to make the system more usable/less brittle. 
-This is no trivial task and might increase false positives if not done right. 
+Currently, our gesture recognition does not take into account slight intra-gesture variances in time or features. Ideally, the system should be able to detect user intent when a user reaches for the lock in a manner which is definitively the correct gesture, but performed slightly faster or slower, or lifts the hand slightly lower or higher. 
+
+This can be addressed with dynamic time warping (DTW), which measures similarities in two signals which may vary slightly in time or amplitude. Essentially, DTW allows a non-linear mapping of one signal to another by minimizing the distance between the two. This phenomenon is illustrated in the figures below: 
+
 
 <center style="padding-bottom: 1em;">
 <img src="euclidian.png" width =300 />
 <img src="dtw.png" width=300 /> <br />
-Figure #: dynamic time warping <br /> 
+Figures # and #: A contrast between Euclidian matching and DTW matching. <br /> 
 (source: http://th.wikipedia.org/wiki/Dynamic_time_warping)
 </center>
 
+Another desireable feature for gesture recognition is to allow for the gesture to be performed in an arbitraty plane. Since our system currently uses absolute accelerometer calculations for detecting gestures, normalizing gestures for planes will not make a difference. However, for other gestures (such as drawing a circle, a five-pointed star, etc.), having the flexibility for the user to draw the authenticating shape in different planes will make the system much less brittle and therefore more usable to the user. Imagine if a user had to draw a circle in a plane perfectly parallel to the lock face in order to authenticate! Plane normalization is definitely a necessity when considering more complex gestures. 
+
 <center style="padding-bottom: 1em;">
 <img src="planes.png" width = 300 /><br />
-Figure #: plane normalization 
+Figure #: Circles drawn in three planes. Plane normalization allows the user to authenticate with the correct gesture on any plane. 
 </center> 
 
-#### Additional Considerations
-improving the lock UI, handling many users and many locks, etc. 
+Exciting future work lies ahead. Investigating for the optimal gesture for authentication and implementing more refined gesture recognition techniques will only improve our current authentication system. 
 
 <a href="#" id="conclusions"></a>
 ## Conclusions
