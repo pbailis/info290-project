@@ -276,18 +276,27 @@ What did we find out?
 <a href="#" id="remaining"></a>
 ## Remaining Threats
 
-Malware, physical theft, physical attacks, eavesdropping, social engineering attacks. Refer to the old website if necessary. 
+Our wearables gesture recognition smartlock authentication scheme can be vulnerable to the threats we mitigate if there are false positives in recognizing the gesture. Additionally, other out-of-scope threats still remain for smart lock technologies and should be taken into consideration. 
 
+#### In-scope Threats
 Possible false positives with the commonness of the gesture. 
+Makes relay attacks still technically possible. 
+
+Social engineering attacks can be used to make the wearer do something specific. 
+
+#### Out-of-Scope Threats
+Malware, physical theft, physical attacks, cryptographic attacks. Refer to the old website if necessary. 
 
 
 <a href="#" id="futurework"></a>
 ## Future Work
 
-Testing different gestures: 
+Next steps for improving smart lock security by integrating wearable technology into the smart lock authenticaiton process involves: investigating for the optimal gesture for authentication, implementing more refined gesture recognition techniques, and continuing to agument our authentication system with additional features. 
+
+#### The Optimal Gesture
 Which ones are most normal? Which ones have a high false positive rate?
 
-Better gesture recognition techniques: 
+#### Better Gesture Recognition Techniques
 using 1) dtw and 2) plane normalization to make the system more usable/less brittle. 
 This is no trivial task and might increase false positives if not done right. 
 
@@ -303,9 +312,8 @@ Figure #: dynamic time warping <br />
 Figure #: plane normalization 
 </center> 
 
-And also: 
-minimizing the false positive rate. 
-designing the system for availability and convenience.
+#### Additional Considerations
+improving the lock UI, handling many users and many locks, etc. 
 
 <a href="#" id="conclusions"></a>
 ## Conclusions
