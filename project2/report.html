@@ -276,14 +276,36 @@ What did we find out?
 <a href="#" id="remaining"></a>
 ## Remaining Threats
 
-Talk about false positives here!
+Malware, physical theft, physical attacks, eavesdropping, social engineering attacks. Refer to the old website if necessary. 
 
-What didn't we solve?
+Possible false positives with the commonness of the gesture. 
+
 
 <a href="#" id="futurework"></a>
 ## Future Work
 
-Better gesture recognition, etc. goes here.
+Testing different gestures: 
+Which ones are most normal? Which ones have a high false positive rate?
+
+Better gesture recognition techniques: 
+using 1) dtw and 2) plane normalization to make the system more usable/less brittle. 
+This is no trivial task and might increase false positives if not done right. 
+
+<center style="padding-bottom: 1em;">
+<img src="euclidian.png" width =300 />
+<img src="dtw.png" width=300 /> <br />
+Figure #: dynamic time warping <br /> 
+(source: http://th.wikipedia.org/wiki/Dynamic_time_warping)
+</center>
+
+<center style="padding-bottom: 1em;">
+<img src="planes.png" width = 300 /><br />
+Figure #: plane normalization 
+</center> 
+
+And also: 
+minimizing the false positive rate. 
+designing the system for availability and convenience.
 
 <a href="#" id="conclusions"></a>
 ## Conclusions
