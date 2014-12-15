@@ -14,17 +14,19 @@
 
 In this project, we addressed several shortcomings of existing smart
 lock security by integrating wearable technology into the smart lock
-authenticaiton process. Primarily, [during our prior experience with
-smart locks in Project
-One](http://www.bailis.org/private/info290/p1/report.html), we noted
-that existing locks are bad at detecting intent, or disambiguating
-deliberate and legitimate attempts to unlock smart lock devices from
+authentication process. During our prior experience with
+smart locks in [Project One](http://www.bailis.org/private/info290/p1/report.html), 
+we found that existing locks strive for effortless ease-of-use at the
+expense of failing to secure detect intent; 
+namely, existing smart locks fail to distinguish between
+deliberate, legitimate attempts to unlock smart lock devices and
 accidental or illegitimate attempts to unlock them. In this work, we
-examined the use of wearable technology and simple gesture recognition
-to augment the sensor inputs used in smart lock authentication. This
-document is designed to document our initial design, implementation,
-and authentication for what is, in effect, two-factor physical
-authentication for smart lock security.
+leverage wearable technology and simple gesture recognition in an
+attempt to strengthen the intent communication process in
+smart lock authentication. This document describes our initial system design
+and implementation, as well as our analysis and reflections on the completed
+prototype for securely and usably determining when a smart key should
+authenticate to a smartlock.
 
 The remainder of this document proceeds as follows: we introduce our
 specific [problem statement](#statement) and describe our proposed
@@ -44,12 +46,12 @@ ability to capture *user intent* in unlocking a door. In our analysis
 of the Kevo Smart Lock, we found that the lock would frequently grant
 access to an unauthorized attacker if the key holder was in close
 proximity to the door. The lock lacked a means of distinguishing
-whether or not the key's proximity to the lock signaled an intent to
+whether or not the key's proximity to the lock signalled an intent to
 open the door or whether the proximity was simply a matter of
 coincidence or other clever social engineering on behalf of a would-be
 attacker. Faced with this ambiguity, the Kevo lock would simply unlock
 the door, compromising the security of the system and that of the
-system user.
+system user. 
 
 In this project, we wanted to explore ways of mitigating these
 security threats by better capturing the intent of the
@@ -64,10 +66,8 @@ capabilities to better understand intent. Towards this end, we
 investigated the use of wearable technology---specifically, the use of
 "smart watch" wearable computers---as an additional input device
 during the authentication process. In effect, this additional input
-would serve as a "second factor" of authentication and help reduce
-false positives in the authentication process (ideally without
-increasing false negatives and thus leaving users locked out of their
-respective protected spaces).
+allows a key holder's device to more securely and accurately
+determine when it should attempt to authenticate to a smartlock.
 
 The resulting challenges were three-fold. First, how could we design
 an authentication system that preserved existing modes of operation
@@ -85,42 +85,44 @@ backwards-compatible manner) proved to be a somewhat challenging
 exercise in systems integration and software engineering.
 
 In the next section, we discuss our proposed architecture and
-prototype for two-factor physical authentication.
+prototype for detecting when a smart key should authenticate
+and request action from a smart lock.
 
 <a href="#" id="arch"></a>
 ## System Architecture and Algorithm
 
 To address our problem statement above, we developed a prototype
-two-factor smart lock that realizes the benefits of proximity sensing
+smart lock system that realizes the benefits of proximity sensing
 *combined* with gestural recognition.
 
 #### Solution Overview
 
 In all, our system architecture combines both touch-based
-  authentication commands with accelerometer-based gesture
-  recognition. We relay the sensor readings from a watch-based
-  accelerometer to a centralized authentication server to detect the
-  physical gesture of unlocking a given lock. Upon lock authentication
-  request, the lock queries the authentication server to ensure that
-  not only is the given key in range, but the user has recently
-  performed the appropriate gesture required for lock release.
+authentication commands with accelerometer-based gesture
+recognition. We relay the sensor readings from a watch-based
+accelerometer to a centralized authentication server to detect the
+physical gesture of unlocking a given lock. Upon lock authentication
+request, the lock queries the authentication server to ensure
+not only that an authorized key is in range, but also that the user has recently
+performed the appropriate gesture required for lock release.
 
 We provide additional details about user experience and interface in
 the next section, but, for now, we assume that the user is wearing a
-smart watch with a specialized smart lock accelerometer relay program
-installed (described below). 
+smart watch with our smartlock app installed (described below), which
+mirrors the setup for existing smartlocks (which ask you to install
+their app on your smartphone). 
 
 #### Prototype Description
 
-We prototyped the above system using a range of technologies. We
+We prototyped our system using a range of technologies. We
 describe each component of our solution at a high level below, then
 discuss specific algorithmic details and design decisions:
 
 <center style="padding-bottom: 1em;">
 <img src="arch.png" width=600 /><br />
 **Figure 1: Overall Prototype Architecture. A range of technologies
-enable two-factor authentication of physical smart lock
-authentication.**
+enable securely and usably determining when smart lock
+authentication should be initiated.**
 </center>
 
   * **The lock** is an internet-enabled smart lock able to make HTTP
@@ -134,8 +136,8 @@ authentication.**
       appropriate dialog to the user as if it actually did.)
 
       In practice, the lock could use a phone as a 
-      local proxy for authentication, with appropriate encryption 
-      performed via a one-time pad with the server.
+      local proxy for authentication, with appropriate authenticated encryption 
+      performed with the server.
 
 <center style="padding-bottom: 1em;">
 <img src="lock-proto.png" width=300 /><br/>
@@ -144,14 +146,14 @@ authentication.**
 
   * **The watch** is a [Samsung Gear
       Live](https://play.google.com/store/devices/details?id=samsung_gear_live_black&hl=en)
-      watch running the Google Android operating system. The watch
+      watch running the Google Android Wear operating system. The watch
       contains a custom program written using the [Android Wear
       API](https://developer.android.com/wear/index.html) to access
       the watch's accelerometer sensors (sampled at 60 Hz) and relay
-      them (via Bluetooth) to a [Google Nexus smart
-      phone](http://www.google.com/nexus/). The smart phone runs a
-      second application, written in Java, that relays the watch
-      accelerometer readings to the authentication server
+      them (via Bluetooth) to a [Moto G Android
+      phone](http://www.google.com/nexus/). The smart phone runs an
+	  Android app, written in Java, that relays the watch's
+      accelerometer readings to the authentication server.
 
 <center style="padding-bottom: 1em;">
 <img src="TODO.png" width=300 /><br/>
@@ -189,9 +191,19 @@ determining whether a user had raised her hand to the lock in order to
 trigger the touch-based authentication sensor. We viewed the
 accelerometer readings during a series of trial "unlocking" actions
 and found that, often, we would unlock the door by performing a
-sweeping motion, bringing the wrist from waist to door. This roughly
-corresponds to the positive acceleration in the z-dimension measured
-in the plot below (viewed via the monitoring window):
+sweeping motion, bringing the wrist from waist to door; we noticed
+that while one is walking, the z-acceleration detected by the watch
+is quite low because your hand usually sideways when you walk
+(namely, the palm of your hand faces inward to your body, meaning
+the watch face is sideways). When reaching to push a button in front
+of us, we noticed that we naturally rotated our hand to be palm-down as we
+lifted our hand from waist to the door's "unlock button".
+This corresponds to an increased, positive acceleration in the z-dimension because
+not only are we raising (accelerating) our arm upwards from waist to door, but now
+that our hand is rotated to its "flat" position, the z-accelerometer sensor also registers
+a greater acceleration (gravitational) force because the watch face is now upright;
+the plot below (viewed via our server's monitoring window) illustrates
+an instance of thi phenomenon.
 
 <center style="padding-bottom: 1em;">
 <img src="graph.png" width=600 /><br />
@@ -199,17 +211,19 @@ in the plot below (viewed via the monitoring window):
 peaking at 12.5 m/s/s).**
 </center>
 
-After some trial and error, we determined that this negative
-acceleration proved a useful means of determining user intent. Namely,
+After some trial and error, we determined that we could leverage
+this pattern in accelerometer changes
+to better determine a user intent's
+intent to lock or unlock. Specifically,
 when the server received a touch-based authentication request, we
 calculated the average positive acceleration over the past two seconds
-of data and, if the acceleration was sufficiently negative, we would
-unlock the door. The actual choice of threshold is somewhat
+of data and, if the acceleration was sufficiently positive, we
+unlocked the door. The actual choice of threshold will be somewhat
 user-specific, but we found a common choice that was well-suited for
 our purposes.
 
-Thus, this simple design [has some drawbacks](#remaining) but is
-surprisingly [sufficient to mitigate many of the threats that we
+Ultimately, this simple design [has some drawbacks](#remaining) but serves
+as an excellent initial prototype [sufficient to mitigate many of the threats that we
 considered](#mitigation).
 
 #### Design and Engineering Decisions
@@ -265,13 +279,55 @@ decisions that influenced our final prototype. We outline several here:
 <a href="#" id="ui"></a>
 ## User Interface and Experience
 
+The interface for our "smartlock" consists of a large button displayed on a smartphone;
+users simply taps on the button when they want to lock or unlock the "smartlock". This
+interaction model mirrors the Kevo smartlock where a user taps on the keyhole in order
+to lock/unlock the door.
+
+<center style="padding-bottom: 1em;">
 <img src="locked.png" width=200 />
 <img src="denied.png" width=200 />
+**Figures 4 and 5: Our smartlock UI in its locked and access denied states.**
+</center>
+
+Our system strives to preserve as much of the natural locking/unlocking process as possible,
+while simultaneously providing a secure mechanism to determine when a user is requesting action from the smartlock.
+As such, we thought about the fundamental components of the locking/unlocking process for
+existing smart lock and door systems. Our brainstorming led to the realization that most modern doors
+require a user to reach for a doorknob (or in the case of Kevo) tap on a lock's keyhole; until a new, dominant
+interaction model (such as automatic sliding doors seen in Star Trek), it seems that users will always
+need to reach for the doorknob in order to open it. Furthermore, most conscious home owners do not immediately
+reach for their door's internal lock or doorknob without first verifying the guest's identity (usually
+either by asking something to the effect of "who's there?" or looking into their door's peephole).
+Thus, by detecting whether or not a user is performing a reaching gesture (finished by
+tapping or pushing on something for the Kevo-style interaction), we can securely and accurately determine
+when our key should authenticate to the smartlock with false negatives (failing to
+recognize when users are legitimately trying to unlock their door/authenticate to the smartlock).
+We plan to conduct sound user studies to validate this hypothesis, but based on our personal
+experimentation, we found that we had no trouble correctly unlocking the door when desired (low
+false negatives); the security of our system (false positives: when our system incorrectly
+initiates authentication between the key and lock and allows an attacker to enter) are discussed in the following [Threat
+Mitgation](#mitigation) section.
 
 <a href="#" id="mitigation"></a>
 ## Threat Mitigation
 
-What did we find out?
+For this project, we aimed to design a defense against
+attacks or errors that emerged as a result of insecure and imprecise mechanisms
+for users to communicate their intent to unlock a door. In particular, we consider
+side-of-the-door attacks: a home owner, "Bob" is inside his home while "Alice", an attacker outside
+his home, attempts to trick Bob's key into unlocking the door. With the Kevo smartlock, 
+if Bob gets close enough to the door with his key fob or smartphone, then Alice is able to
+unlock his door by simply tapping on the smartlock keyhole and waiting for the lock to authenticate
+with Bob's nearby key device; while the Kevo lock claims to leverage proprietary algorithms to detect
+when a key is inside of the house/behind the door, our experiments from Project 1 showed that
+we're often able to trick the smartlock into unlocking when our key fob was behind the door.
+We believe that our "reaching-and-tapping" gesture recognition feature secures Kevo, and other
+smartlock systems, against this category of attacks. In particular, as we discussed in the preceding section,
+we believe it is unlikely for a homeowner to reach for their door's internal lock without verifying a visitor's
+identity. Consequently, even though Bob's smart key may be arbitrarily close to the smart lock, since he performs no
+reaching-and-tapping gesture, Bob's smart key will not even attempt to authenticate to the smart lock, preventing
+Alice from unlocking Bob's home door and protecting smart lock owners against this category of attacks.
 
 <a href="#" id="remaining"></a>
 ## Remaining Threats
@@ -284,17 +340,21 @@ Our system was intentionally designed to address the problem of accurately indic
 <a href="#" id="futurework"></a>
 ## Future Work
 
-Next steps for improving smart lock security by integrating wearable technology into the smart lock authenticaiton process involves: investigating for the optimal gesture for authentication and implementing more refined gesture recognition techniques. 
+Next steps for improving smart lock security by integrating wearable technology into the smart lock authentication process involves: investigating for the optimal gesture for authentication and implementing more refined gesture recognition techniques. 
 
 #### The Optimal Gesture
 For our system, we chose the gesture most natural and indicative of interacting with the lock--tracking when a user reaches to push the button on the lock. Since users do would perform this motion when interacting with the lock, no additional effort, prior knowledge, or training is required of the user. Additionally, since the motion is used when interacting with the lock, this motion can serve as a strong indicator of intent. 
 
-However, there are benefits to trading off how usable a system is for a user for security guarentees. For instance, a more difficult and uncommon gesture (such as drawing a circle), is both more difficult for the user to perform, requires prior knowledge of the system, and requires a shift in habit. While less conveient for the user, this does prevent unahthorized users without prior knowledge (or very lazy unauthorized users) from using this lock.
+However, there are benefits to trading off how usable a system is for a user for security guarantees. For instance, a more difficult and uncommon gesture (such as drawing a circle), is both more difficult for the user to perform, requires prior knowledge of the system, and requires a shift in habit. While less convenient for the user, this does prevent unauthorized users without prior knowledge (or very lazy unauthorized users) from using this lock.
 
-A less common gesture also has the advantage of triggering less false positives, due to its uncommon nature. If a motion is very common, there is the possibility that the lock will open without the user's intent. Currently, our system requires that an authorized user had made a reaching motion within the last two seconds before there was a signal to unlock the smartlock. Our current reaching motion provides sufficient mitigations against the attacks mentioned above, but further research can be done to find the optimal gesture which makes appropriate tradeoffs betweeen usability and security. 
+A less common gesture also has the advantage of triggering less false positives, due to its uncommon nature. If a motion is very common, there is the possibility that the lock will open without the user's intent. Currently, our system requires that an authorized user had made a reaching motion within the last two seconds before there was a signal to unlock the smartlock. Our current reaching motion provides sufficient mitigations against the attacks mentioned above, but further research can be done to find the optimal gesture which makes appropriate tradeoffs between usability and security. 
 
 #### Better Gesture Recognition Techniques
-Currently, our gesture recognition does not take into account slight intra-gesture variances in time or features. Ideally, the system should be able to detect user intent when a user reaches for the lock in a manner which is definitively the correct gesture, but performed slightly faster or slower, or lifts the hand slightly lower or higher. 
+As a first step for continuing simple reaching gestures, we can incorporate the x-accelerometer readings to detect
+when a user's hand is moving in a forward direction (moving from the user's waist to reach something in front of him/her).
+
+For more advanced improvements, there are several promising machine learning techniques we can turn to, such as dynamic
+time warping. Currently, our gesture recognition does not take into account slight intra-gesture variances in time or features. Ideally, the system should be able to detect user intent when a user reaches for the lock in a manner which is definitively the correct gesture, but performed slightly faster or slower, or lifts the hand slightly lower or higher. 
 
 This can be addressed with dynamic time warping (DTW), which measures similarities in two signals which may vary slightly in time or amplitude. Essentially, DTW allows a non-linear mapping of one signal to another by minimizing the distance between the two. This phenomenon is illustrated in the figures below: 
 
@@ -302,15 +362,15 @@ This can be addressed with dynamic time warping (DTW), which measures similariti
 <center style="padding-bottom: 1em;">
 <img src="euclidian.png" width =300 />
 <img src="dtw.png" width=300 /> <br />
-Figures # and #: A contrast between Euclidian matching and DTW matching. <br /> 
+Figures 6 and 7: A contrast between Euclidean matching and DTW matching. <br /> 
 (source: http://th.wikipedia.org/wiki/Dynamic_time_warping)
 </center>
 
-Another desireable feature for gesture recognition is to allow for the gesture to be performed in an arbitraty plane. Since our system currently uses absolute accelerometer calculations for detecting gestures, normalizing gestures for planes will not make a difference. However, for other gestures (such as drawing a circle, a five-pointed star, etc.), having the flexibility for the user to draw the authenticating shape in different planes will make the system much less brittle and therefore more usable to the user. Imagine if a user had to draw a circle in a plane perfectly parallel to the lock face in order to authenticate! Plane normalization is definitely a necessity when considering more complex gestures. 
+Another desirable feature for gesture recognition is to allow for the gesture to be performed in an arbitrary plane. Since our system currently uses absolute accelerometer calculations for detecting gestures, normalizing gestures for planes will not make a difference. However, for other gestures (such as drawing a circle, a five-pointed star, etc.), having the flexibility for the user to draw the authenticating shape in different planes will make the system much less brittle and therefore more usable to the user. Imagine if a user had to draw a circle in a plane perfectly parallel to the lock face in order to authenticate! Plane normalization is definitely a necessity when considering more complex gestures. 
 
 <center style="padding-bottom: 1em;">
 <img src="planes.png" width = 300 /><br />
-Figure #: Circles drawn in three planes. Plane normalization allows the user to authenticate with the correct gesture on any plane. 
+Figure 8: Circles drawn in three planes. Plane normalization allows the user to authenticate with the correct gesture on any plane. 
 </center> 
 
 Exciting future work lies ahead. Investigating for the optimal gesture for authentication and implementing more refined gesture recognition techniques will only improve our current authentication system. 
